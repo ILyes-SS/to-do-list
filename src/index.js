@@ -5,14 +5,26 @@ class Project{
         this.tasks = [];
     }
     addToList(task){
+        
+        if(this.tasks.some(element => 
+        JSON.stringify(element) == JSON.stringify(task)))
+            return;
         this.tasks.push(task);
         this.tasksNum++;
     }
     listSize(){
         return this.tasksNum;
     }
-    displayTasksName(){
-        this.tasks.forEach((task)=> console.log(task.name))
+    displayTasksTitle(){
+        this.tasks.forEach((task)=> console.log(task.title))
+    }
+    deleteTask(task){
+        let index = this.tasks.findIndex(element => 
+            JSON.stringify(element) == JSON.stringify(task))
+         if(index != -1){
+            this.tasks.splice(index, 1);
+            this.tasksNum--;
+         }   
     }
 }
 
@@ -53,5 +65,23 @@ function createNewTask(title, description, date, priority, project){
     }
     else
         addTaskToList(task, list)
+    return task;
 }
 
+function deleteTaskFromLists(task){
+    const list = projects.find((list)=> list.name == task.project);
+    list.deleteTask(task);
+    defaultList.deleteTask(task);
+}
+function deleteProject(name){
+    let foundIndex = projects.findIndex((element)=> element.name == name);
+    projects.splice(foundIndex, 1);
+    let index = 0;
+    defaultList.tasks.forEach((task)=>{
+        if(task.project == name){
+            defaultList.tasks.splice(index, 1);
+            defaultList.tasksNum--;
+        }
+        index++;
+    })
+}
