@@ -1,8 +1,97 @@
 @font-face {
     font-family: "poppins";
-    src: url(./Poppins-Black.ttf);
+    src: url(./Poppins-Medium.ttf);
 }
 :root{
     --dark-green: #163832;
-    --light-green: #DAF1DE;
+    --less-dark-green: #2e5049;
+    --light-green: #eef7f0;
+}
+html, body{
+    font-family: "poppins";
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+#sidebar{
+    padding: 10px;
+    background-color: var(--light-green);
+    height: 100dvh;
+}
+.add-div{
+    display: flex;
+    gap: 10px;
+}
+.add-div > *{
+    color: var(--dark-green);
+    font-weight: 600;
+}
+.add-div button {
+    background-color: var(--dark-green);
+    border: none;
+    border-radius: 100%;
+    color: white;
+    padding-block: 0px;
+    padding-inline: 15px;
+    font-size: 30px;
+    font-weight: 900;
+}
+.add-div button:hover, button[id = "add-project"]{
+    cursor: pointer;
+    background-color: var(--less-dark-green);
+}
+ul {
+    list-style-type: none;
+    padding-left: 13px;
+  }
+li::before {
+    content: "#"; 
+    margin-right: 0px;
+}
+li span, h3 span{
+    color: gray;
+    margin-left: 5px;
+}
+dialog{
+    border-radius: 20px;
+    border-color: #2e5049;
+}
+dialog form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 15px;
+}
+form > div:first-of-type{
+    display: flex;
+    flex-direction: column;
+}
+form input{
+    height: 22px;
+    font-size: 16px;
+    border-radius:5px;
+}
+form > div:last-of-type{
+    display: flex;
+    gap: 10px;
+    align-self: flex-end;
+}
+form button{
+    padding-block: 6px;
+    padding-inline: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+}
+form button:first-child{
+    cursor: pointer;
+}
+button[id = "add-project"]{
+    color: white;
+    background-color: var(--dark-green);
+}
+::backdrop{
+    background-color: rgba(0, 0, 0, 0.493);
+    filter: blur(20px);
 }

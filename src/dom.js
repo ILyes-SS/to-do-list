@@ -5,7 +5,7 @@ export function MyProjects(projects) {
     sidebar.innerHTML = ''; // Clear existing content
 
     const header = document.createElement("h3");
-    header.textContent = "My Projects";
+    header.innerHTML = "My Projects" + " "  + `<span> ${logic.projects.length}<span>`;
 
     const projectsList = document.createElement("ul");
 
@@ -19,10 +19,11 @@ export function MyProjects(projects) {
 
     addDiv.appendChild(addProjectBtn);
     addDiv.appendChild(addPara);
+    addDiv.className = "add-div"
 
     for (let project of projects) {
         const projectsListEle = document.createElement("li");
-        projectsListEle.textContent = project.name + ` ${project.listSize()}`;
+        projectsListEle.innerHTML = project.name + `<span> ${project.listSize()} <span>`;
         projectsList.appendChild(projectsListEle);
     }
 
@@ -51,7 +52,7 @@ function handleProjectSubmit(e) {
     const dialog = document.querySelector(".project");
     const nameInput = document.querySelector("#name-project");
 
-    logic.createNewProject(nameInput.value);
+    logic.createNewProject(nameInput.value || "Nameless");
 
     // Close dialog and refresh project list
     dialog.close();
