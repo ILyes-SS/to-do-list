@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "poppins";
+    src: url(./Poppins-Black.ttf);
+}
+:root{
+    --dark-green: #163832;
+    --light-green: #DAF1DE;
+}
