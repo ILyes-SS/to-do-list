@@ -1,8 +1,12 @@
 import * as logic from "./logic";
+import trash from "./images/trash.png"
 
 export function MyProjects(projects) {
     const sidebar = document.querySelector("#sidebar");
     sidebar.innerHTML = ''; // Clear existing content
+
+    const mainBody = document.querySelector("#main");
+    mainBody.innerHTML = ''; 
 
     const header = document.createElement("h3");
     header.innerHTML = "My Projects" + " "  + `<span> ${logic.projects.length}<span>`;
@@ -35,6 +39,8 @@ export function MyProjects(projects) {
     addProjectBtn.addEventListener("click", () => {
         showAddProjectDialog();
     });
+
+    emptyProject();
 }
 
 export function showAddProjectDialog() {
@@ -59,3 +65,33 @@ function handleProjectSubmit(e) {
     MyProjects(logic.projects);
 }
 
+function emptyProject(){
+    const mainBody = document.querySelector("#main")
+
+    const divHeader = document.createElement("div");
+    const projectHeader = document.createElement("h2");
+    const deleteProjectBtn = document.createElement("button");
+    const trashIcon = document.createElement("img")
+
+    const divAddTask = document.createElement("div");
+    const addTaskBtn = document.createElement("button");
+    const addTaskPara = document.createElement("p");
+
+    addTaskBtn.textContent = "+"
+    addTaskPara.textContent = "Add Task"
+
+    divAddTask.appendChild(addTaskBtn)
+    divAddTask.appendChild(addTaskPara)
+
+    projectHeader.textContent = "All"
+    trashIcon.src = trash
+
+    deleteProjectBtn.appendChild(trashIcon)
+
+    divHeader.appendChild(projectHeader)
+    divHeader.appendChild(deleteProjectBtn)
+
+    mainBody.appendChild(divHeader)
+    mainBody.appendChild(divAddTask)
+
+}   

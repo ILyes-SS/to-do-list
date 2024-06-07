@@ -47,7 +47,7 @@ export class Task{
     }
 }
 
-export const defaultList = new Project("defaultList");
+export const defaultList = new Project("All");
 export const projects = [ defaultList ];
 
 export function createNewProject(name){

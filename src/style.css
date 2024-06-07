@@ -21,22 +21,26 @@ html, body{
 .add-div{
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 .add-div > *{
     color: var(--dark-green);
     font-weight: 600;
 }
-.add-div button {
+.add-div button,
+#main > :last-child button {
     background-color: var(--dark-green);
     border: none;
     border-radius: 100%;
     color: white;
     padding-block: 0px;
     padding-inline: 15px;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 900;
+    height:40px;
 }
-.add-div button:hover, button[id = "add-project"]{
+.add-div button:hover, 
+button[id = "add-project"]{
     cursor: pointer;
     background-color: var(--less-dark-green);
 }
@@ -94,4 +98,36 @@ button[id = "add-project"]{
 ::backdrop{
     background-color: rgba(0, 0, 0, 0.493);
     filter: blur(20px);
+}
+#main{
+    padding-inline: 100px;
+    padding-block: 60px;
+}
+#main > :first-child{
+    display: flex;
+    gap: 20vw;
+    align-items: center;
+}
+#main > :last-child{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+#main > :last-child button{
+    height: fit-content;
+    color: var(--dark-green);
+    background-color: white;
+}
+#main > :last-child button:hover{
+    cursor: pointer;
+    background-color: var(--dark-green);
+    color: white;
+}
+#main > :first-child button{
+    background-color: white;
+    border: none;
+    height: fit-content;
+}
+#main > :first-child button:hover{
+    cursor: pointer;
 }
