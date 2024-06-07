@@ -41,6 +41,12 @@ export function MyProjects(projects) {
     });
 
     emptyProject();
+    const addTaskDiv = document.querySelector("#main > :nth-child(2)")
+    const addTaskBtn = document.querySelector("#main > :nth-child(2) button")
+    addTaskBtn.addEventListener("click",()=>{
+        addTaskDiv.style.display = "none"
+        addTaskForm()
+    })
 }
 
 export function showAddProjectDialog() {
@@ -67,6 +73,7 @@ function handleProjectSubmit(e) {
 
 function emptyProject(){
     const mainBody = document.querySelector("#main")
+    const divTasks = document.createElement("div");
 
     const divHeader = document.createElement("div");
     const projectHeader = document.createElement("h2");
@@ -93,5 +100,107 @@ function emptyProject(){
 
     mainBody.appendChild(divHeader)
     mainBody.appendChild(divAddTask)
-
+    mainBody.appendChild(divTasks)
 }   
+
+function addTaskForm(){
+    const divTasks = document.querySelector("#main > :last-child")
+    const addForm = document.createElement("form")
+
+    const legendRadio = document.createElement("legend")
+    legendRadio.textContent = "Priority(increasing):"
+
+    const para1 = document.createElement("p")
+    const para2 = document.createElement("p")
+    const para3 = document.createElement("p")
+    const para4 = document.createElement("p")
+    const para5 = document.createElement("p")
+    const para6 = document.createElement("p")
+
+    //para1
+    const titleInput = document.createElement("input")
+
+    titleInput.setAttribute("id",`title`)
+    titleInput.setAttribute("type",`text`)
+    titleInput.setAttribute("placeholder",`Task name`)
+
+    para1.appendChild(titleInput)
+     //para2
+     const descInput = document.createElement("input")
+
+     descInput.setAttribute("id",`description`)
+     descInput.setAttribute("type",`text`)
+     descInput.setAttribute("placeholder",`description`)
+ 
+     para2.appendChild(descInput)
+    //para2
+    const calInput = document.createElement("input")
+
+    calInput.setAttribute("id",`date`)
+    calInput.setAttribute("type",`date`)
+    calInput.setAttribute("placeholder",`date`)
+
+    para3.appendChild(calInput)
+
+
+    para4.appendChild(legendRadio);
+    for(let i= 0; i < 4; i++){
+        const RadiosDiv = document.createElement("div")
+        const inputRadio = document.createElement("input")
+        const label = document.createElement("label")
+
+        inputRadio.setAttribute("id",`radio${i}`)
+        inputRadio.setAttribute("type",`radio`)
+        inputRadio.setAttribute("name",`priority`)
+        label.setAttribute("for",`radio${i}`)
+        label.textContent = `p${i}`
+        RadiosDiv.appendChild(label)
+        RadiosDiv.appendChild(inputRadio)
+
+        para4.appendChild(RadiosDiv)
+    }
+    const datalist = document.createElement("datalist");
+        const input = document.createElement("input")
+        const label = document.createElement("label")
+
+        label.textContent = "Project:"
+        input.setAttribute("id",`projectName`)
+        input.setAttribute("placeHolder",`All`)
+        label.setAttribute("for",`projectName`)
+        input.setAttribute("list",`projectsList`)
+        datalist.setAttribute("id","projectsList")
+        
+    for(let i = 0; i < logic.projects.length ; i++){
+        const options = document.createElement("option")
+         options.textContent = logic.projects[i].name
+
+        datalist.appendChild(options)
+
+         }
+         para5.appendChild(label)
+         para5.appendChild(input)
+         para5.appendChild(datalist)
+
+         const cancelBtn = document.createElement("button")
+         const confirmBtn = document.createElement("button")
+
+         cancelBtn.textContent = "Cancel"
+         confirmBtn.textContent = "Add task"
+
+         cancelBtn.formNoValidate = true
+         confirmBtn.setAttribute("type","submit")
+
+         para6.appendChild(cancelBtn)
+         para6.appendChild(confirmBtn)
+
+     addForm.appendChild(para1);
+     addForm.appendChild(para2);
+     addForm.appendChild(para3);
+     addForm.appendChild(para4);
+     addForm.appendChild(para5);
+     addForm.appendChild(para6);
+
+     divTasks.appendChild(addForm)
+
+
+}
