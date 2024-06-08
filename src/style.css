@@ -103,11 +103,11 @@ button[id = "add-project"]{
 }
 #main{
     flex-grow: 1;
-    padding-inline: 100px;
+    padding-inline: 60px;
     padding-block: 60px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
 }
 #main > :first-child{
     display: flex;
@@ -174,3 +174,30 @@ form > p > div{
     display: flex;
     gap: 2px;
 }
+/* style tasks*/
+#main > :last-child > div{
+    width: 20vw;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    
+    border-bottom: #2e5049 solid 1px;
+}
+#main > :last-child > div > :nth-child(2) h5{
+    font-size: 18px;
+}
+#main > :last-child > div > :first-child > p{
+   margin-top: 70px;
+}
+input[type="checkbox"].p0 {
+    accent-color: blue; /* Change to desired color */
+  }
+  input[type="checkbox"].p1 {
+    accent-color: yellow; /* Change to desired color */
+  }
+  input[type="checkbox"].p2 {
+    accent-color: orange; /* Change to desired color */
+  }
+  input[type="checkbox"].p3 {
+    accent-color: red; /* Change to desired color */
+  }

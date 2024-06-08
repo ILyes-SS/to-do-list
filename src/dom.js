@@ -39,14 +39,17 @@ export function MyProjects(projects) {
     addProjectBtn.addEventListener("click", () => {
         showAddProjectDialog();
     });
-
+//contain the main part
     emptyProject();
     const addTaskDiv = document.querySelector("#main > :nth-child(2)")
     const addTaskBtn = document.querySelector("#main > :nth-child(2) button")
     addTaskBtn.addEventListener("click",()=>{
         addTaskDiv.style.display = "none"
-        addTaskForm()
+        addTaskForm() // add event listener here ydir MyProject w taskFormDAta
+        
     })
+   
+
 }
 
 export function showAddProjectDialog() {
@@ -101,6 +104,8 @@ function emptyProject(){
     mainBody.appendChild(divHeader)
     mainBody.appendChild(divAddTask)
     mainBody.appendChild(divTasks)
+
+    displayTasks()
 }   
 
 function addTaskForm(){
@@ -152,6 +157,7 @@ function addTaskForm(){
         inputRadio.setAttribute("id",`radio${i}`)
         inputRadio.setAttribute("type",`radio`)
         inputRadio.setAttribute("name",`priority`)
+        inputRadio.setAttribute("value",`p${i}`)
         label.setAttribute("for",`radio${i}`)
         label.textContent = `p${i}`
         RadiosDiv.appendChild(label)
@@ -202,5 +208,66 @@ function addTaskForm(){
 
      divTasks.appendChild(addForm)
 
+     const submitTaskBtn = document.querySelector("p [type = 'submit']")
+        submitTaskBtn.addEventListener("click",(e)=>{
+            e.preventDefault();
+            taskFormData();
+            MyProjects(logic.projects);
+            
+        })
+}
+function taskFormData(){
+   
+    let radioValue;
+    const radioInputs = document.querySelectorAll("[type = 'radio']")
+    for(let radio of radioInputs){
+        if(radio.checked){
+            radioValue = radio.value || "p0";
+        }
+    }
+    const titleInput = document.querySelector("#title")
+    const descInput = document.querySelector("#description")
+    const dateInput = document.querySelector("#date")
+    const listInput = document.querySelector("#projectName")
 
+    logic.createNewTask(titleInput.value, descInput.value, dateInput.value, radioValue, listInput.value || "All")
+}
+//probably will receive the project that we are in
+function displayTasks(){
+    const tasksDiv = document.querySelector("#main > :last-child")
+    for(let i= 0; i < logic.projects.length; i++){
+       for(let j= 0; j < logic.projects[i].tasks.length; j++){
+        let task = logic.projects[i].tasks[j];
+        const checkbox = document.createElement("input");
+        const h5 = document.createElement("h5");
+        const description = document.createElement("p");
+        const date = document.createElement("p");
+        const priority = document.createElement("p");
+        const project = document.createElement("p");
+        const div = document.createElement("div");
+        const div1 = document.createElement("div");
+        const div2 = document.createElement("div");
+
+        h5.textContent = task.title;
+        description.textContent = task.description;
+        date.textContent = task.date;
+        priority.textContent = task.priority
+        project.textContent = "# " + task.project;
+        checkbox.setAttribute("type","checkbox")
+        checkbox.setAttribute("class",task.priority)
+
+        div1.appendChild(checkbox)
+        div1.appendChild(project)
+
+        div2.appendChild(h5)
+        div2.appendChild(description)
+        div2.appendChild(date)
+        
+        div.appendChild(div1)
+        div.appendChild(div2)
+
+        tasksDiv.appendChild(div)
+
+       }
+    }
 }
