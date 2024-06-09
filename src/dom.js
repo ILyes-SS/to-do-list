@@ -1,5 +1,7 @@
 import * as logic from "./logic";
 import trash from "./images/trash.png"
+import pencil from "./images/crayon.png"
+
 
 export function MyProjects(projects) {
     const sidebar = document.querySelector("#sidebar");
@@ -17,7 +19,7 @@ export function MyProjects(projects) {
     const addProjectBtn = document.createElement("button");
     const addPara = document.createElement("p");
 
-    addPara.textContent = "Add task";
+    addPara.textContent = "Add project";
     addProjectBtn.textContent = "+";
     addProjectBtn.className = 'add-btn';
 
@@ -29,6 +31,14 @@ export function MyProjects(projects) {
         const projectsListEle = document.createElement("li");
         projectsListEle.innerHTML = project.name + `<span> ${project.listSize()} <span>`;
         projectsList.appendChild(projectsListEle);
+//last add
+        projectsListEle.addEventListener("click", ()=>{
+            if(project.name != "All")
+                displayTasks(project)
+            else
+                displayTasks(logic.projects[0]);
+                MyProjects(logic.projects)
+        })
     }
 
     sidebar.appendChild(addDiv);
@@ -105,7 +115,7 @@ function emptyProject(){
     mainBody.appendChild(divAddTask)
     mainBody.appendChild(divTasks)
 
-    displayTasks()
+    displayTasks(logic.projects[0])
 }   
 
 function addTaskForm(){
@@ -215,6 +225,7 @@ function addTaskForm(){
             MyProjects(logic.projects);
             
         })
+
 }
 function taskFormData(){
    
@@ -233,11 +244,11 @@ function taskFormData(){
     logic.createNewTask(titleInput.value, descInput.value, dateInput.value, radioValue, listInput.value || "All")
 }
 //probably will receive the project that we are in
-function displayTasks(){
+function displayTasksAll(){
     const tasksDiv = document.querySelector("#main > :last-child")
-    for(let i= 0; i < logic.projects.length; i++){
-       for(let j= 0; j < logic.projects[i].tasks.length; j++){
-        let task = logic.projects[i].tasks[j];
+   
+       for(let j= 0; j < logic.projects[0].tasks.length; j++){
+        let task = logic.projects[0].tasks[j];
         const checkbox = document.createElement("input");
         const h5 = document.createElement("h5");
         const description = document.createElement("p");
@@ -247,6 +258,18 @@ function displayTasks(){
         const div = document.createElement("div");
         const div1 = document.createElement("div");
         const div2 = document.createElement("div");
+        const div3 = document.createElement("div");
+        const deleteBtn = document.createElement("button");
+        const editBtn = document.createElement("button");
+        const deleteImg = document.createElement("img");
+        const editImg = document.createElement("img");
+
+        deleteImg.src = trash
+        editImg.src = pencil
+
+        deleteBtn.appendChild(deleteImg)
+        editBtn.appendChild(editImg)
+
 
         h5.textContent = task.title;
         description.textContent = task.description;
@@ -262,12 +285,70 @@ function displayTasks(){
         div2.appendChild(h5)
         div2.appendChild(description)
         div2.appendChild(date)
-        
+
+        div3.appendChild(deleteBtn)
+        div3.appendChild(editBtn)
+
         div.appendChild(div1)
         div.appendChild(div2)
+        div.appendChild(div3)
+     
+  tasksDiv.appendChild(div)
 
-        tasksDiv.appendChild(div)
+       
+    }
+}
+function displayTasks(projectName){
+    const tasksDiv = document.querySelector("#main > :last-child")
+    
+       for(let j= 0; j < projectName.tasks.length; j++){
+        let task = projectName.tasks[j];
+        const checkbox = document.createElement("input");
+        const h5 = document.createElement("h5");
+        const description = document.createElement("p");
+        const date = document.createElement("p");
+        const priority = document.createElement("p");
+        const project = document.createElement("p");
+        const div = document.createElement("div");
+        const div1 = document.createElement("div");
+        const div2 = document.createElement("div");
+        const div3 = document.createElement("div");
+        const deleteBtn = document.createElement("button");
+        const editBtn = document.createElement("button");
+        const deleteImg = document.createElement("img");
+        const editImg = document.createElement("img");
 
-       }
+        deleteImg.src = trash
+        editImg.src = pencil
+
+        deleteBtn.appendChild(deleteImg)
+        editBtn.appendChild(editImg)
+
+
+        h5.textContent = task.title;
+        description.textContent = task.description;
+        date.textContent = task.date;
+        priority.textContent = task.priority
+        project.textContent = "# " + task.project;
+        checkbox.setAttribute("type","checkbox")
+        checkbox.setAttribute("class",task.priority)
+
+        div1.appendChild(checkbox)
+        div1.appendChild(project)
+
+        div2.appendChild(h5)
+        div2.appendChild(description)
+        div2.appendChild(date)
+
+        div3.appendChild(deleteBtn)
+        div3.appendChild(editBtn)
+
+        div.appendChild(div1)
+        div.appendChild(div2)
+        div.appendChild(div3)
+     
+  tasksDiv.appendChild(div)
+
+       
     }
 }

@@ -18,6 +18,7 @@ export class Project{
     displayTasksTitle(){
         this.tasks.forEach((task)=> console.log(task.title))
     }
+
     deleteTask(task){
         let index = this.tasks.findIndex(element => 
             JSON.stringify(element) == JSON.stringify(task))

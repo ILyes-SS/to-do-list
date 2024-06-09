@@ -15,9 +15,9 @@ html, body{
     width: 100dvw;
 }
 #sidebar{
-    padding: 10px;
+    padding: 20px;
     background-color: var(--light-green);
-    height: 100dvh;
+    height: max(100%, 100dvh);
 }
 .add-div{
     display: flex;
@@ -176,7 +176,7 @@ form > p > div{
 }
 /* style tasks*/
 #main > :last-child > div{
-    width: 20vw;
+    width: 60vw;
     display: flex;
     align-items: baseline;
     gap: 20px;
@@ -201,3 +201,29 @@ input[type="checkbox"].p0 {
   input[type="checkbox"].p3 {
     accent-color: red; /* Change to desired color */
   }
+  #main > :last-child > div > :last-child{
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+  } 
+  #main > :last-child > div > :last-child button{
+    background-color: transparent;
+    border: none;
+  }
+  #main > :last-child > div > :last-child button:hover{
+    cursor: pointer;
+  }
+  li:hover{
+    background-color: #9bb8b1;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 7px;
+  }
+h5 + p{
+    
+        width: 360px; /* Set the width as per your requirement */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      
+}
