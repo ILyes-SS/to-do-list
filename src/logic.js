@@ -75,7 +75,11 @@ export function createNewTask(title, description, date, priority, project){
 
 export function deleteTaskFromLists(task){
     const list = projects.find((list)=> list.name == task.project);
+    if(list && list.name != defaultList.name){
     list.deleteTask(task);
+    defaultList.deleteTask(task);
+    }
+    else if(list)
     defaultList.deleteTask(task);
 }
 export function deleteProject(name){

@@ -283,6 +283,8 @@ function displayTasks(projectName){
 
         deleteImg.src = trash
         editImg.src = pencil
+        deleteBtn.setAttribute("class","delete-task")
+        deleteBtn.setAttribute("data",`${j}`)
 
         deleteBtn.appendChild(deleteImg)
         editBtn.appendChild(editImg)
@@ -312,6 +314,13 @@ function displayTasks(projectName){
      
   tasksDiv.appendChild(div)   
     }
+    const deleteBtns = document.querySelectorAll(".delete-task")
+    deleteBtns.forEach((btn)=>{
+        btn.addEventListener("click",()=>{
+            deleteTask(projectName.tasks[btn.getAttribute("data")]);
+            
+        })
+    })
 }
 function deleteProject(project){
     const deleteBtn = document.querySelector("h2 + button")
@@ -320,4 +329,10 @@ function deleteProject(project){
         MyProjects(logic.projects, logic.projects[0])
         founded = undefined
     })
+}
+function deleteTask(task){
+    
+        logic.deleteTaskFromLists(task)
+        MyProjects(logic.projects, founded || logic.projects[0])
+  
 }
