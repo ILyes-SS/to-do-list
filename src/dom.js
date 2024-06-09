@@ -2,8 +2,8 @@ import * as logic from "./logic";
 import trash from "./images/trash.png"
 import pencil from "./images/crayon.png"
 
-
-export function MyProjects(projects) {
+let founded;
+export function MyProjects(projects, found) {
     const sidebar = document.querySelector("#sidebar");
     sidebar.innerHTML = ''; // Clear existing content
 
@@ -32,13 +32,7 @@ export function MyProjects(projects) {
         projectsListEle.innerHTML = project.name + `<span> ${project.listSize()} <span>`;
         projectsList.appendChild(projectsListEle);
 //last add
-        projectsListEle.addEventListener("click", ()=>{
-            if(project.name != "All")
-                displayTasks(project)
-            else
-                displayTasks(logic.projects[0]);
-                MyProjects(logic.projects)
-        })
+       
     }
 
     sidebar.appendChild(addDiv);
@@ -50,7 +44,9 @@ export function MyProjects(projects) {
         showAddProjectDialog();
     });
 //contain the main part
-    emptyProject();
+   
+    emptyProject(found);
+   
     const addTaskDiv = document.querySelector("#main > :nth-child(2)")
     const addTaskBtn = document.querySelector("#main > :nth-child(2) button")
     addTaskBtn.addEventListener("click",()=>{
@@ -58,7 +54,20 @@ export function MyProjects(projects) {
         addTaskForm() // add event listener here ydir MyProject w taskFormDAta
         
     })
-   
+    const projectsListEles = document.querySelectorAll("li")
+    projectsListEles.forEach((li)=>{
+        li.addEventListener("click", ()=>{
+            const liText = li.textContent.trim(); // Get text content and trim any extra whitespace
+            const projectName = liText.split(' ')[0]; // Assuming name and list size are separated by a space
+        
+        const found = projects.find((element) => element.name == projectName)
+        founded = found;
+        if(found && found.name != "All")
+            MyProjects(logic.projects, found)
+        else if(found.name == "All")
+            MyProjects(logic.projects, found)
+    })
+})
 
 }
 
@@ -81,11 +90,12 @@ function handleProjectSubmit(e) {
 
     // Close dialog and refresh project list
     dialog.close();
-    MyProjects(logic.projects);
+    MyProjects(logic.projects, founded || logic.projects[0]);
 }
 
-function emptyProject(){
+function emptyProject(project){
     const mainBody = document.querySelector("#main")
+    mainBody.innerHTML = ""
     const divTasks = document.createElement("div");
 
     const divHeader = document.createElement("div");
@@ -103,7 +113,7 @@ function emptyProject(){
     divAddTask.appendChild(addTaskBtn)
     divAddTask.appendChild(addTaskPara)
 
-    projectHeader.textContent = "All"
+    projectHeader.textContent = project.name;
     trashIcon.src = trash
 
     deleteProjectBtn.appendChild(trashIcon)
@@ -115,7 +125,7 @@ function emptyProject(){
     mainBody.appendChild(divAddTask)
     mainBody.appendChild(divTasks)
 
-    displayTasks(logic.projects[0])
+    displayTasks(project)
 }   
 
 function addTaskForm(){
@@ -201,6 +211,7 @@ function addTaskForm(){
          const confirmBtn = document.createElement("button")
 
          cancelBtn.textContent = "Cancel"
+         cancelBtn.className = "Cancel"
          confirmBtn.textContent = "Add task"
 
          cancelBtn.formNoValidate = true
@@ -217,12 +228,17 @@ function addTaskForm(){
      addForm.appendChild(para6);
 
      divTasks.appendChild(addForm)
+     document.querySelector(".Cancel").addEventListener("click",(e)=>{
+        e.preventDefault()
+        document.querySelector("#main form").style.display = "none"
+        MyProjects(logic.projects, founded || logic.projects[0]);
 
+     })
      const submitTaskBtn = document.querySelector("p [type = 'submit']")
         submitTaskBtn.addEventListener("click",(e)=>{
             e.preventDefault();
             taskFormData();
-            MyProjects(logic.projects);
+            MyProjects(logic.projects, founded || logic.projects[0]);
             
         })
 
@@ -243,61 +259,7 @@ function taskFormData(){
 
     logic.createNewTask(titleInput.value, descInput.value, dateInput.value, radioValue, listInput.value || "All")
 }
-//probably will receive the project that we are in
-function displayTasksAll(){
-    const tasksDiv = document.querySelector("#main > :last-child")
-   
-       for(let j= 0; j < logic.projects[0].tasks.length; j++){
-        let task = logic.projects[0].tasks[j];
-        const checkbox = document.createElement("input");
-        const h5 = document.createElement("h5");
-        const description = document.createElement("p");
-        const date = document.createElement("p");
-        const priority = document.createElement("p");
-        const project = document.createElement("p");
-        const div = document.createElement("div");
-        const div1 = document.createElement("div");
-        const div2 = document.createElement("div");
-        const div3 = document.createElement("div");
-        const deleteBtn = document.createElement("button");
-        const editBtn = document.createElement("button");
-        const deleteImg = document.createElement("img");
-        const editImg = document.createElement("img");
 
-        deleteImg.src = trash
-        editImg.src = pencil
-
-        deleteBtn.appendChild(deleteImg)
-        editBtn.appendChild(editImg)
-
-
-        h5.textContent = task.title;
-        description.textContent = task.description;
-        date.textContent = task.date;
-        priority.textContent = task.priority
-        project.textContent = "# " + task.project;
-        checkbox.setAttribute("type","checkbox")
-        checkbox.setAttribute("class",task.priority)
-
-        div1.appendChild(checkbox)
-        div1.appendChild(project)
-
-        div2.appendChild(h5)
-        div2.appendChild(description)
-        div2.appendChild(date)
-
-        div3.appendChild(deleteBtn)
-        div3.appendChild(editBtn)
-
-        div.appendChild(div1)
-        div.appendChild(div2)
-        div.appendChild(div3)
-     
-  tasksDiv.appendChild(div)
-
-       
-    }
-}
 function displayTasks(projectName){
     const tasksDiv = document.querySelector("#main > :last-child")
     
