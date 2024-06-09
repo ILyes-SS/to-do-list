@@ -81,12 +81,15 @@ export function deleteTaskFromLists(task){
 export function deleteProject(name){
     let foundIndex = projects.findIndex((element)=> element.name == name);
     projects.splice(foundIndex, 1);
-    let index = 0;
-    defaultList.tasks.forEach((task)=>{
+    
+    for(let i =0; i < defaultList.tasks.length; i++){
+        let task = defaultList.tasks[i];
         if(task.project == name){
-            defaultList.tasks.splice(index, 1);
+            defaultList.tasks.splice(i, 1);
             defaultList.tasksNum--;
+            i--;
         }
-        index++;
-    })
+       
+        
+    }
 }

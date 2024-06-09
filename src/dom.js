@@ -125,6 +125,7 @@ function emptyProject(project){
     mainBody.appendChild(divAddTask)
     mainBody.appendChild(divTasks)
 
+    deleteProject(project);
     displayTasks(project)
 }   
 
@@ -309,8 +310,14 @@ function displayTasks(projectName){
         div.appendChild(div2)
         div.appendChild(div3)
      
-  tasksDiv.appendChild(div)
-
-       
+  tasksDiv.appendChild(div)   
     }
+}
+function deleteProject(project){
+    const deleteBtn = document.querySelector("h2 + button")
+    deleteBtn.addEventListener("click",()=>{
+        logic.deleteProject(project.name)
+        MyProjects(logic.projects, logic.projects[0])
+        founded = undefined
+    })
 }
