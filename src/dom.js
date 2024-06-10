@@ -3,6 +3,7 @@ import trash from "./images/trash.png"
 import pencil from "./images/crayon.png"
 
 let founded;
+let a = 1;
 export function MyProjects(projects, found) {
     const sidebar = document.querySelector("#sidebar");
     sidebar.innerHTML = ''; // Clear existing content
@@ -235,10 +236,14 @@ function addTaskForm(){
         MyProjects(logic.projects, founded || logic.projects[0]);
 
      })
+
      const submitTaskBtn = document.querySelector("p [type = 'submit']")
         submitTaskBtn.addEventListener("click",(e)=>{
             e.preventDefault();
-            taskFormData();
+           // if(a == 1)
+                taskFormData();
+           // else
+           //     toEditData();
             MyProjects(logic.projects, founded || logic.projects[0]);
             
         })
@@ -248,9 +253,29 @@ function taskFormData(){
    
     let radioValue;
     const radioInputs = document.querySelectorAll("[type = 'radio']")
+
     for(let radio of radioInputs){
         if(radio.checked){
             radioValue = radio.value || "p0";
+        }
+    }
+
+    const titleInput = document.querySelector("#title")
+    const descInput = document.querySelector("#description")
+    const dateInput = document.querySelector("#date")
+    const listInput = document.querySelector("#projectName")
+
+    logic.createNewTask(titleInput.value, descInput.value, dateInput.value, radioValue, listInput.value || "All")
+}
+/*function toEditData(task){
+   
+    
+    const radioInputs = document.querySelectorAll("[type = 'radio']")
+    if(radio.value == task.priority)
+    
+    for(let radio of radioInputs){
+        if(radio.value == task.priority){
+            radio.checked = true;
         }
     }
     const titleInput = document.querySelector("#title")
@@ -258,7 +283,147 @@ function taskFormData(){
     const dateInput = document.querySelector("#date")
     const listInput = document.querySelector("#projectName")
 
-    logic.createNewTask(titleInput.value, descInput.value, dateInput.value, radioValue, listInput.value || "All")
+    titleInput.value= task.title
+    descInput.value = task.description
+    dateInput.value = task.date
+    listInput.value = task.project
+}
+*/
+function editTaskForm(task){
+    const divTasks = document.querySelector("#main > :last-child")
+    const addForm = document.createElement("form")
+
+    const legendRadio = document.createElement("legend")
+    legendRadio.textContent = "Priority(increasing):"
+
+    const para1 = document.createElement("p")
+    const para2 = document.createElement("p")
+    const para3 = document.createElement("p")
+    const para4 = document.createElement("p")
+    const para5 = document.createElement("p")
+    const para6 = document.createElement("p")
+
+    //para1
+    const titleInput = document.createElement("input")
+
+    titleInput.setAttribute("id",`title`)
+    titleInput.setAttribute("type",`text`)
+    titleInput.setAttribute("placeholder",`Task name`)
+
+    para1.appendChild(titleInput)
+     //para2
+     const descInput = document.createElement("input")
+
+     descInput.setAttribute("id",`description`)
+     descInput.setAttribute("type",`text`)
+     descInput.setAttribute("placeholder",`description`)
+ 
+     para2.appendChild(descInput)
+    //para2
+    const calInput = document.createElement("input")
+
+    calInput.setAttribute("id",`date`)
+    calInput.setAttribute("type",`date`)
+    calInput.setAttribute("placeholder",`date`)
+
+    para3.appendChild(calInput)
+
+
+    para4.appendChild(legendRadio);
+    for(let i= 0; i < 4; i++){
+        const RadiosDiv = document.createElement("div")
+        const inputRadio = document.createElement("input")
+        const label = document.createElement("label")
+
+        inputRadio.setAttribute("id",`radio${i}`)
+        inputRadio.setAttribute("type",`radio`)
+        inputRadio.setAttribute("name",`priority`)
+        inputRadio.setAttribute("value",`p${i}`)
+        label.setAttribute("for",`radio${i}`)
+        label.textContent = `p${i}`
+        RadiosDiv.appendChild(label)
+        RadiosDiv.appendChild(inputRadio)
+
+        para4.appendChild(RadiosDiv)
+    }
+    const datalist = document.createElement("datalist");
+        const input = document.createElement("input")
+        const label = document.createElement("label")
+
+        label.textContent = "Project:"
+        input.setAttribute("id",`projectName`)
+        input.setAttribute("placeHolder",`All`)
+        label.setAttribute("for",`projectName`)
+        input.setAttribute("list",`projectsList`)
+        datalist.setAttribute("id","projectsList")
+        
+    for(let i = 0; i < logic.projects.length ; i++){
+        const options = document.createElement("option")
+         options.textContent = logic.projects[i].name
+
+        datalist.appendChild(options)
+
+         }
+         para5.appendChild(label)
+         para5.appendChild(input)
+         para5.appendChild(datalist)
+
+         const cancelBtn = document.createElement("button")
+         const confirmBtn = document.createElement("button")
+
+         cancelBtn.textContent = "Cancel"
+         cancelBtn.className = "Cancel"
+         confirmBtn.textContent = "Save"
+
+         cancelBtn.formNoValidate = true
+         confirmBtn.setAttribute("type","submit")
+
+         para6.appendChild(cancelBtn)
+         para6.appendChild(confirmBtn)
+
+     addForm.appendChild(para1);
+     addForm.appendChild(para2);
+     addForm.appendChild(para3);
+     addForm.appendChild(para4);
+     addForm.appendChild(para5);
+     addForm.appendChild(para6);
+
+     divTasks.appendChild(addForm)
+
+     const radioInputs = document.querySelectorAll("[type = 'radio']")
+    
+    
+    for(let radio of radioInputs){
+        if(radio.value == task.priority){
+            radio.checked = true;
+        }
+    }
+    const headerInput = document.querySelector("#title")
+    const descriptionInput = document.querySelector("#description")
+    const dateInput = document.querySelector("#date")
+    const listInput = document.querySelector("#projectName")
+
+    headerInput.value= task.title
+    descriptionInput.value = task.description
+    dateInput.value = task.date
+    listInput.value = task.project
+     document.querySelector(".Cancel").addEventListener("click",(e)=>{
+        e.preventDefault()
+        document.querySelector("#main form").style.display = "none"
+        MyProjects(logic.projects, founded || logic.projects[0]);
+
+     })
+     const submitTaskBtn = document.querySelector("p [type = 'submit']")
+        submitTaskBtn.addEventListener("click",(e)=>{
+            e.preventDefault();
+           // if(a == 1)
+                taskFormData();
+           // else
+           //     toEditData();
+            MyProjects(logic.projects, founded || logic.projects[0]);
+            
+        })
+
 }
 
 function displayTasks(projectName){
@@ -273,6 +438,8 @@ function displayTasks(projectName){
         const priority = document.createElement("p");
         const project = document.createElement("p");
         const div = document.createElement("div");
+        div.setAttribute("class",`Task`)
+
         const div1 = document.createElement("div");
         const div2 = document.createElement("div");
         const div3 = document.createElement("div");
@@ -286,6 +453,9 @@ function displayTasks(projectName){
         deleteBtn.setAttribute("class","delete-task")
         deleteBtn.setAttribute("data",`${j}`)
 
+        editBtn.setAttribute("class","edit-task")
+        editBtn.setAttribute("data",`${j}`)
+
         deleteBtn.appendChild(deleteImg)
         editBtn.appendChild(editImg)
 
@@ -296,6 +466,7 @@ function displayTasks(projectName){
         priority.textContent = task.priority
         project.textContent = "# " + task.project;
         checkbox.setAttribute("type","checkbox")
+        checkbox.setAttribute("class",task.priority)
         checkbox.setAttribute("class",task.priority)
 
         div1.appendChild(checkbox)
@@ -321,6 +492,33 @@ function displayTasks(projectName){
             
         })
     })
+    const editBtns = document.querySelectorAll(".edit-task")
+    editBtns.forEach((btn)=>{
+        btn.addEventListener("click",(e)=>{
+            const taskElement = e.target.closest('.Task');
+            taskElement.style.display = 'none';
+            editTask(projectName.tasks[btn.getAttribute("data")])
+            
+            
+        })
+    })
+    const checkInput = document.querySelectorAll("[type = 'checkbox']")
+    checkInput.forEach((input)=>{
+        input.addEventListener("click",(e)=>{
+            const taskElement = e.target.closest('.Task');
+            if(input.checked){
+           
+                taskElement.style.color = 'gray';
+               
+            }
+            else{
+               
+                taskElement.style.color = 'black';
+            }
+           
+            
+        })
+    })
 }
 function deleteProject(project){
     const deleteBtn = document.querySelector("h2 + button")
@@ -335,4 +533,15 @@ function deleteTask(task){
         logic.deleteTaskFromLists(task)
         MyProjects(logic.projects, founded || logic.projects[0])
   
+}
+function editTask(task){
+   deleteTask(task)
+//  const taskDiv = document.querySelectorAll(`#main > :last-child > div`)
+ // taskDiv.style.display="none"
+
+   editTaskForm(task);
+   
+}
+function finishTask(){
+
 }
