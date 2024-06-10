@@ -1,3 +1,7 @@
+import { differenceInDays, subDays, compareAsc, isToday } from "date-fns";
+
+
+
 export class Project{
     constructor(name){
         this.tasksNum = 0;
@@ -46,10 +50,18 @@ export class Task{
     completeTask(){
         this.complete = true;
     }
+    returnDate(){
+      let dates = this.date.split("-");
+
+      return new Date(dates[0], dates[1] - 1, dates[2] )
+    }
 }
 
 export const defaultList = new Project("All");
-export const projects = [ defaultList ];
+export const today = new Project("Today");
+export const thisWeek = new Project("thisWeek");
+
+export const projects = [ defaultList, today, thisWeek ];
 
 export function createNewProject(name){
     const project = new Project(name);
@@ -59,6 +71,14 @@ export function createNewProject(name){
 export function addTaskToList(task, project){
     project.addToList(task);
     defaultList.addToList(task);
+    if (isToday(task.returnDate())) { 
+        today.addToList(task); 
+    }
+    if (differenceInDays(task.returnDate(), new Date()) <= 7
+    && differenceInDays(task.returnDate(), new Date()) >= 0) { 
+        thisWeek.addToList(task); 
+    }
+    
 }
 
 export function createNewTask(title, description, date, priority, project){
@@ -68,8 +88,9 @@ export function createNewTask(title, description, date, priority, project){
         createNewProject(project);
         addTaskToList(task, projects[projects.length - 1])
     }
-    else
+    else{
         addTaskToList(task, list)
+    }
     return task;
 }
 
@@ -81,6 +102,13 @@ export function deleteTaskFromLists(task){
     }
     else if(list)
     defaultList.deleteTask(task);
+    if (isToday(task.returnDate())) { 
+        today.deleteTask(task); 
+    }
+    if (differenceInDays(task.returnDate(), new Date()) <= 7
+    && differenceInDays(task.returnDate(), new Date()) >= 0) { 
+        thisWeek.deleteTask(task); 
+    }
 }
 export function deleteProject(name){
     let foundIndex = projects.findIndex((element)=> element.name == name);
@@ -92,6 +120,13 @@ export function deleteProject(name){
             defaultList.tasks.splice(i, 1);
             defaultList.tasksNum--;
             i--;
+            if (isToday(task.returnDate())) { 
+                today.deleteTask(task); 
+            }
+            if (differenceInDays(task.returnDate(), new Date()) <= 7
+            && differenceInDays(task.returnDate(), new Date()) >= 0) { 
+                thisWeek.deleteTask(task); 
+            }
         }
        
         

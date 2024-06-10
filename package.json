@@ -7,9 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --open",
     "build": "webpack",
-    "dist" : "git add dist && git commit -m 'Initial dist subtree commit'",
-    "pages" : "git subtree push --prefix dist origin gh-pages"
-  
+    "dist": "git add dist && git commit -m 'Initial dist subtree commit'",
+    "pages": "git subtree push --prefix dist origin gh-pages"
   },
   "author": "",
   "license": "ISC",
@@ -20,5 +19,8 @@
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
+  },
+  "dependencies": {
+    "date-fns": "^3.6.0"
   }
 }

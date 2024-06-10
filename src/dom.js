@@ -47,6 +47,7 @@ export function MyProjects(projects, found) {
 //contain the main part
    
     emptyProject(found);
+    
    
     const addTaskDiv = document.querySelector("#main > :nth-child(2)")
     const addTaskBtn = document.querySelector("#main > :nth-child(2) button")
@@ -371,7 +372,7 @@ function editTaskForm(task){
          const cancelBtn = document.createElement("button")
          const confirmBtn = document.createElement("button")
 
-         cancelBtn.textContent = "Cancel"
+         cancelBtn.textContent = "Delete"
          cancelBtn.className = "Cancel"
          confirmBtn.textContent = "Save"
 
@@ -467,7 +468,7 @@ function displayTasks(projectName){
         project.textContent = "# " + task.project;
         checkbox.setAttribute("type","checkbox")
         checkbox.setAttribute("class",task.priority)
-        checkbox.setAttribute("class",task.priority)
+        checkbox.setAttribute("data",j)
 
         div1.appendChild(checkbox)
         div1.appendChild(project)
@@ -507,9 +508,9 @@ function displayTasks(projectName){
         input.addEventListener("click",(e)=>{
             const taskElement = e.target.closest('.Task');
             if(input.checked){
-           
                 taskElement.style.color = 'gray';
-               
+                projectName.tasks[input.getAttribute("data")].completeTask()
+              
             }
             else{
                
@@ -541,7 +542,4 @@ function editTask(task){
 
    editTaskForm(task);
    
-}
-function finishTask(){
-
 }
