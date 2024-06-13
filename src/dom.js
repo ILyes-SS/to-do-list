@@ -1,6 +1,8 @@
 import * as logic from "./logic";
 import trash from "./images/trash.png"
 import pencil from "./images/crayon.png"
+//import { saveData, getValues, populate, loadProjects } from "./localStorage";
+
 
 let founded;
 let a = 1;
@@ -43,6 +45,7 @@ export function MyProjects(projects, found) {
     // Ensure the event listener for the add button is set up correctly for next time
     addProjectBtn.addEventListener("click", () => {
         showAddProjectDialog();
+       
     });
 //contain the main part
    
@@ -71,6 +74,9 @@ export function MyProjects(projects, found) {
     })
 })
 
+
+//localStorageProjects(logic.projects)
+//document.querySelector("#sidebar button").onclick = () => populate(logic.projects);
 }
 
 export function showAddProjectDialog() {
@@ -543,3 +549,21 @@ function editTask(task){
    editTaskForm(task);
    
 }
+/*function localStorageProjects(projects) {
+    populate(projects); // Save projects to localStorage
+    let loadedProjects = loadProjects(); // Load projects from localStorage
+
+    // Replace current projects with loaded projects
+    logic.projects.length = 0;
+    loadedProjects.forEach((project) => logic.projects.push(project));
+}
+function loadProjectsFromLocalStorage() {
+    const loadedProjects = loadProjects(); // Load projects from localStorage
+    logic.projects.length = 0;
+    loadedProjects.forEach(project => logic.projects.push(project));
+}
+document.addEventListener('DOMContentLoaded', () => {
+    loadProjectsFromLocalStorage();
+    MyProjects(logic.projects, logic.projects[0]);
+});
+*/
