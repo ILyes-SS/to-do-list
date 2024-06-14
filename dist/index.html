@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+<script defer src="main.js"></script></head>
+<body>
+    <dialog class="project" >
+        <form method="dialog">
+            <h3>Add project</h3>
+            <div>
+                <label for="name-project">Name</label>
+                <input type="text" id="name-project" required autofocus>
+            </div>
+            <div>
+                <button type="submit" id="cancel-project" formnovalidate>Cancel</button>
+                <button type="submit" id="add-project">Add</button>
+            </div>
+        </form>
+    </dialog>
+    <div id="sidebar"></div>
+    <div id="main"></div>
+</body>
+</html>
